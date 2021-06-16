@@ -10,15 +10,15 @@ template <class T>
 struct Node
 {
 	T value;
-	Node* next;
-	Node* prev;
+	Node<T>* next;
+	Node<T>* prev;
 };
 
 template <class T>
 class List
 {
-	Node* head;
-	Node* tail;
+	Node<T>* head;
+	Node<T>* tail;
 	int length;
 public:
 	List()
@@ -26,10 +26,18 @@ public:
 		head = tail = nullptr;
 		length = 0;
 	}
+
 	~List()
 	{
-
+		List<T>* current{ head };
+		for (int i = 0; i < length; i++)
+		{
+			current = head->next;
+			delete head;
+			head = current;
+		}
 	}
+
 	int Length()
 	{
 		return length;
@@ -156,7 +164,6 @@ public:
 
 		if (index > length - 1)
 			return RemoveTail();
-
 
 		Node<T>* current{ head };
 		if (index < length / 2)
